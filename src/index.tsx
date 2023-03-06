@@ -3,13 +3,25 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { MsalProvider, MsalAuthenticationTemplate } from "@azure/msal-react";
+import { InteractionType } from '@azure/msal-browser';
+import { getPopupClient } from './popupClient';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+const AppProvider = () => (
+  <MsalProvider instance={getPopupClient()}>
+    <MsalAuthenticationTemplate interactionType={InteractionType.Popup}>
+      <App />
+    </MsalAuthenticationTemplate>
+  </MsalProvider>
+);
+
 root.render(
   <React.StrictMode>
-    <App />
+    <AppProvider />
   </React.StrictMode>
 );
 
